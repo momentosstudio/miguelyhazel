@@ -143,8 +143,15 @@ p{line-height:1.6;margin:.2rem 0}
 .tl .n{font-size:.95rem;letter-spacing:.06em}
 .dressimg{margin:1rem 0 .4rem;padding:1rem .6rem .6rem;border-radius:1.2rem;background:rgba(107,115,64,.1)}
 .dressimg img{display:block;width:100%;height:auto}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tl img{filter:invert(1)}}
-:root[data-theme="dark"] .tl img{filter:invert(1)}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .tl img{
+    filter:none;
+  }
+}
+
+:root[data-theme="dark"] .tl img{
+  filter:none;
+}
 .branch{display:block;width:min(15rem,70%);height:auto;margin:.8rem auto 0}
 .sw{gap:.4rem;margin:.6rem auto .5rem;max-width:15rem}
 .sw button{width:3.1rem;height:3.1rem;padding:0;border:0;background:none;box-shadow:none;border-radius:50%}
