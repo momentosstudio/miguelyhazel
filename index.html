@@ -21,7 +21,26 @@
   padding-bottom:env(safe-area-inset-bottom,0px);
 
 }
-:root[data-theme="dark"]{--bg:#2a2a1c;--paper:#2f2b22;--ink:#f1e7d3;--muted:#b9ab97;--accent:#b4bd7c;--line:#4b4636;--terra:#d98a68}
+:root{
+  --bg:#FDFBF6;
+  --env:#F2ECE3;
+  --env-flap:#E8DED1;
+  --seal:#C0C0C0;
+  --seal-ink:#FFFFFF;
+
+  --paper:#FDFBF6;
+
+  --ink:#4D4D4D;
+  --muted:#8A8A8A;
+
+  --accent:#AFA39A;   /* taupe elegante */
+
+  --line:#E4DDD3;
+
+  --terra:#B7ABA1;
+
+  --spark:#D8D0C8;
+}
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%;margin:0}
 html{overflow:hidden} /* evita que el sobre al agrandarse ensanche la página en el celular */
@@ -363,10 +382,12 @@ p{line-height:1.6;margin:.2rem 0}
             document.getElementById('guest');
 
         g.textContent =
-            fam +
-            '\nInvitación para ' +
-            per +
-            (per===1 ? ' persona' : ' personas');
+ fam +
+ '\n\nHemos reservado ' +
+ per +
+ (per===1
+   ? ' espacio para ti.'
+   : ' espacios para ustedes.');
 
         g.hidden = false;
 
