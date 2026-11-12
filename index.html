@@ -12,8 +12,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#d8c8a6; --env:#f1e7d3; --env-flap:#e4d5b8; --seal:#a9502f; --seal-ink:#f6e3d0;
-  --paper:#fbf6ec; --ink:#3a2f27; --muted:#7a6a5c; --accent:#6b7340; --line:#dccfb6; --terra:#b8613f; --spark:#c9a24b;
+  --bg:#FDFBF6; --env:#f1e7d3; --env-flap:#e4d5b8; --seal:#a9502f; --seal-ink:#f6e3d0;
+  --paper:#FDFBF6; --ink:#3a2f27; --muted:#7a6a5c; --accent:#8B7355; --line:#dccfb6; --terra:#b8613f; --spark:#c9a24b;
   --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   --sans:"Jost","Helvetica Neue",Arial,sans-serif;
   box-sizing:border-box;
@@ -294,7 +294,7 @@ p{line-height:1.6;margin:.2rem 0}
       names=document.getElementById('names'),timers=[];
 
   // Hojas que caen UNA sola vez al abrir la invitación (verde oliva, terracota y arena)
-  var cols=['#6b7340','#b8613f','#c9a97a','#8a6a52'],lb=document.getElementById('leaves'),showered=false;
+  var cols=['#8B7355','#B89B7A','#D9C7B3','#C6A98A'],lb=document.getElementById('leaves'),showered=false;
   function shower(){
     if(showered)return;showered=true;
     for(var i=0;i<36;i++){
@@ -337,24 +337,60 @@ p{line-height:1.6;margin:.2rem 0}
   var tel='50371907196',max=10,n=1,who=document.getElementById('who'),num=document.getElementById('num'),rs=document.getElementById('rsvp');
 
   // Invitación personalizada: ?familia=Murillo&personas=3  (o bien  #murillo-3)
-  (function(){
-    var q=new URLSearchParams(location.search),fam=q.get('familia')||'',per=parseInt(q.get('personas'),10)||0;
-    if(!fam){
-      var h=decodeURIComponent(location.hash.slice(1)).split('-');
-      if(h.length>1&&/^\d+$/.test(h[h.length-1])){per=parseInt(h.pop(),10)}
-      fam=h.join(' ');
+  (async function(){
+
+    try{
+
+        var codigo =
+            new URLSearchParams(location.search)
+            .get('codigo');
+
+        if(!codigo) return;
+
+        var response =
+            await fetch('invitados.json');
+
+        var invitados =
+            await response.json();
+
+        if(!invitados[codigo]) return;
+
+        var fam =
+            invitados[codigo].familia;
+
+        var per =
+            invitados[codigo].personas;
+
+        var g =
+            document.getElementById('guest');
+
+        g.textContent =
+            fam +
+            '\nInvitación para ' +
+            per +
+            (per===1 ? ' persona' : ' personas');
+
+        g.hidden = false;
+
+        document.getElementById('forwho').textContent =
+            'Para ' + fam;
+
+        who.value = fam;
+
+        max = per;
+        n = per;
+
+        upd();
+
     }
-    fam=fam.replace(/[<>]/g,'').trim().slice(0,40);
-    if(!fam)return;
-    fam=fam.replace(/(^|\s)\S/g,function(c){return c.toUpperCase()});
-    if(per<1||per>20)per=0;
-    var g=document.getElementById('guest');
-    g.textContent='Familia '+fam+(per?'\nInvitación para '+per+(per===1?' persona':' personas'):'');
-    g.hidden=false;
-    document.getElementById('forwho').textContent='Para la familia '+fam;
-    who.value='Familia '+fam;
-    if(per){max=per;n=per}
-  })();
+
+    catch(error){
+
+        console.error(error);
+
+    }
+
+})();
   function upd(){
     num.textContent=n+(n===1?' persona':' personas');
     var nm=who.value.trim()||'un invitado';
